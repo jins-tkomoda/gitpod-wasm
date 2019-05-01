@@ -1,0 +1,32 @@
+<!-- instantiateStreaming の実験 -->
+
+<script>
+var exports = {};//loaderのアタッチ用
+var lib;
+</script>
+<script src="./loader.js"></script>
+<script>
+(async () => {
+  lib = await exports.instantiateStreaming(fetch("./index.wasm"));
+  console.log(lib);
+})();
+</script>
+<script>
+
+setTimeout(()=>{
+  const x = new lib.X()
+  const array = new Int8Array(5);
+  array[0] = 11;
+  array[1] = 22;
+  array[2] = 33;
+  array[3] = 44;
+  array[4] = 254;
+    
+  console.log('   ary :' , lib.getArray(Int8Array ,lib.addary()))
+  console.log('arypass:' , lib.getArray(Int8Array,lib.addary2(lib.newArray(array, 5, false))))
+  console.log('   say :' , lib.getString(lib.say(lib.newString("oi"))))
+  console.log('   add :' , lib.add(100, 100))
+  console.log(' teste :' , lib.getString(lib.teste()))
+  console.log('method :' , lib.getString(x.teste()))
+},500);
+</script>
